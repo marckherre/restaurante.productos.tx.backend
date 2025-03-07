@@ -1,4 +1,4 @@
-package com.pe.restaurante.productos.tx.backend;
+package com.pe.restaurante.productos;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
