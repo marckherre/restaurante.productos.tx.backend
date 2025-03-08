@@ -14,13 +14,13 @@ import com.pe.restaurante.productos.service.impl.ProductoServiceImpl;
 @RestController
 @RequestMapping("/productos")
 public class ProductoRestService {
-	
-    @Autowired
-    private ProductoServiceImpl productoService;
-	
+
+	@Autowired
+	private ProductoServiceImpl productoService;
+
 	@PostMapping("/t/registro")
-    public ResponseEntity<ProductoDTO> registrarProducto(@RequestBody Producto producto) {
-		ProductoDTO dto = productoService.crearProducto(producto);
-		return ResponseEntity.ok(dto);
-    }
+	public ResponseEntity<Object> registrarProducto(@RequestBody ProductoDTO productoDTO ) {
+		return productoService.crearProducto(productoDTO);
+	}
+
 }

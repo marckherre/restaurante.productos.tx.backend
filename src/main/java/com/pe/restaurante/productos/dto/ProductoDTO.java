@@ -5,7 +5,7 @@ import com.pe.restaurante.productos.model.Producto;
 public class ProductoDTO {
     private Long id;
     private String nombre;
-    private double precio;
+    private Double precio;
     private Long categoriaId;
     private String categoriaNombre;
     
@@ -53,6 +53,8 @@ public class ProductoDTO {
 		this.categoriaNombre = categoriaNombre;
 	}
 
+	public ProductoDTO() {}
+	
 	public ProductoDTO(Producto producto) {
         this.id = producto.getId();
         this.nombre = producto.getNombre();

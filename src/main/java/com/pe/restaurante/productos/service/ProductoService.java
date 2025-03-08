@@ -1,8 +1,9 @@
 package com.pe.restaurante.productos.service;
 
+import org.springframework.http.ResponseEntity;
+
 import com.pe.restaurante.productos.dto.ProductoDTO;
-import com.pe.restaurante.productos.model.Producto;
 
 public interface ProductoService {
-	ProductoDTO crearProducto(Producto producto);
+	ResponseEntity<Object> crearProducto(ProductoDTO  productoDTO );
 }

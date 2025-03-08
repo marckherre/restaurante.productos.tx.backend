@@ -20,7 +20,7 @@ public class Producto {
     private Long id;
 
     private String nombre;
-    private double precio;
+    private Double precio;
 
 	@ManyToOne
     @JoinColumn(name = "categoria_id", nullable = false)
