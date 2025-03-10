@@ -39,7 +39,7 @@ public class ProductoServiceImpl implements ProductoService {
     public ResponseEntity<Object> crearProducto(ProductoDTO productoDTO) {
         List<ErrorMensaje> errores = validarProductoDTO(productoDTO);
         if (!errores.isEmpty()) {
-            logger.info("Error al regitrar Producto: {}", errores.toString());
+        	logErrors(errores);
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(errores);
         }
         
@@ -47,7 +47,7 @@ public class ProductoServiceImpl implements ProductoService {
         if (!categoriaOpt.isPresent()) {
             errores.add(new ErrorMensaje(ErroresEnum.ERROR_04.getCodigo(),
                     ErroresEnum.getMensaje(ErroresEnum.ERROR_04.getCodigo())));
-            logger.info("Error al regitrar Producto: {}", errores.toString());
+            logErrors(errores);
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(errores);
         }
         
@@ -55,7 +55,7 @@ public class ProductoServiceImpl implements ProductoService {
         if (productoExistente.isPresent()) {
             errores.add(new ErrorMensaje(ErroresEnum.ERROR_05.getCodigo(),
                     ErroresEnum.getMensaje(ErroresEnum.ERROR_05.getCodigo())));
-            logger.info("Error al regitrar Producto: {}", errores.toString());
+            logErrors(errores);
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(errores);
         }
         
@@ -65,7 +65,7 @@ public class ProductoServiceImpl implements ProductoService {
         producto.setCategoria(categoriaOpt.get());
         
         Producto productoGuardado = productoRepository.save(producto);
-        logger.info("Producto registrado: {}", productoGuardado.getNombre());
+        logErrors(errores);
         return ResponseEntity.status(HttpStatus.CREATED).body(new ProductoDTO(productoGuardado));
     }
     
@@ -85,5 +85,10 @@ public class ProductoServiceImpl implements ProductoService {
                     ErroresEnum.getMensaje(ErroresEnum.ERROR_03.getCodigo())));
         }
         return errores;
+    }
+    
+    private void logErrors(List<ErrorMensaje> errores) {
+        errores.forEach(error -> 
+            logger.error("Código: {}, Mensaje: {}", error.getCod(), error.getMsg()));
     }
 }
