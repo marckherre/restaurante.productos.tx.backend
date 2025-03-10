@@ -2,9 +2,7 @@ package com.pe.restaurante.productos.model.dao.jpa;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.pe.restaurante.productos.model.dao.ProductoDao;
-
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 
@@ -22,6 +20,5 @@ public class ProductoDaoJpa implements ProductoDao{
 
     @PersistenceContext
     private EntityManager entityManager;
-    
     
 }
