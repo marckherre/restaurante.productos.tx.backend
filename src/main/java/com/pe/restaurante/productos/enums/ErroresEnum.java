@@ -3,9 +3,10 @@ package com.pe.restaurante.productos.enums;
 public enum ErroresEnum {
 	ERROR_01(01, "El nombre de producto es obligatorio y no puede tener mas de 50 caracteres."),
 	ERROR_02(02, "El precio es obligatorio y debe estar en el rango de 0.01 y 1000"),
-	ERROR_03(03, "El ID de la categoría es obligatoria y es un número entero"),
-	ERROR_04(04, "La categoría no existe"),
-	ERROR_05(05, "Ya existe un producto con el mismo nombre");
+	ERROR_03(03, "El ID de la categorï¿½a es obligatoria y es un nï¿½mero entero"),
+	ERROR_04(04, "La categorï¿½a no existe"),
+	ERROR_05(05, "Ya existe un producto con el mismo nombre"),
+	ERROR_06(06, "No existen productos registrados");
 
 
 	private int code;

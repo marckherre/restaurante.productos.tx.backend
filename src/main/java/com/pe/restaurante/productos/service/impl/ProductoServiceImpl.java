@@ -89,6 +89,26 @@ public class ProductoServiceImpl implements ProductoService {
     
     private void logErrors(List<ErrorMensaje> errores) {
         errores.forEach(error -> 
-            logger.error("Código: {}, Mensaje: {}", error.getCod(), error.getMsg()));
+            logger.error("Cï¿½digo: {}, Mensaje: {}", error.getCod(), error.getMsg()));
+    }
+    @Override
+    public ResponseEntity<Object> obtenerTodosClientes(){
+        List<ErrorMensaje> errores = new ArrayList<>();
+        List<Producto> resultBD = new ArrayList<>();
+        List<ProductoDTO> resultToShow = new ArrayList<>();
+
+        resultBD = productoRepository.findAll();
+
+        if(ValidacionUtil.esListaVacia(resultBD)){
+            errores.add(new ErrorMensaje(ErroresEnum.ERROR_06.getCodigo(), 
+            ErroresEnum.getMensaje(ErroresEnum.ERROR_06.getCodigo())));
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(errores);
+        }
+        for(Producto p:resultBD){
+            ProductoDTO dto = new ProductoDTO(p);
+            resultToShow.add(dto);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(resultToShow);
+        
     }
 }
