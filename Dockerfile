@@ -1,14 +1,27 @@
-# Usar una imagen base de Java 17
-FROM openjdk:17-jdk-slim
-
-# Crear un directorio para la aplicación dentro del contenedor
+# Etapa 1: Build con Gradle
+FROM gradle:8.4-jdk17-alpine AS builder
 WORKDIR /app
 
-# Copiar el archivo JAR generado al contenedor
-COPY build/libs/restaurante-productos-0.0.1-SNAPSHOT.jar app.jar
+# Copiar solo archivos de configuraciÃ³n primero (para cachear deps)
+COPY build.gradle settings.gradle ./
+COPY gradle ./gradle
+RUN gradle --no-daemon dependencies
 
-# Exponer el puerto que usa la aplicación (7654 en tu caso)
+# Copiar el resto del cÃ³digo fuente
+COPY src ./src
+
+# Compilar el proyecto y generar el .jar (sin correr tests)
+RUN gradle clean build -x test --no-daemon
+
+# Etapa 2: Imagen final ligera solo con el JAR
+FROM eclipse-temurin:17-jre-alpine
+WORKDIR /app
+
+# Copiar solo el artefacto final
+COPY --from=builder /app/build/libs/*.jar app.jar
+
+# Puerto que expone tu app (ajÃºstalo si es distinto)
 EXPOSE 7654
 
-# Comando para ejecutar la aplicación
+# Ejecutar la app
 ENTRYPOINT ["java", "-jar", "app.jar"]

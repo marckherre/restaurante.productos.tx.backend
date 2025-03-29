@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: productos-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: productos.miservicio.com
+      http:
+        paths:
+          - path: /api/restaurante/productos
+            pathType: Prefix
+            backend:
+              service:
+                name: ms-productos-service
+                port:
+                  number: 80
