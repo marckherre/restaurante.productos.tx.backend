@@ -193,6 +193,24 @@ public class ProductoServiceImpl implements ProductoService {
         productoRepository.save(producto);
         return ResponseEntity.ok(new ProductoDTO(producto));
     }
+    
+    @Override
+    public ResponseEntity<Object> eliminarProducto(Long id) {
+        Optional<Producto> productoOpt = productoRepository.findById(id);
+        if (!productoOpt.isPresent()) {
+            List<ErrorMensaje> errores = new ArrayList<>();
+            errores.add(new ErrorMensaje(
+                ErroresEnum.ERROR_07.getCodigo(),
+                ErroresEnum.ERROR_07.getMensaje()
+            ));
+            logErrors(errores);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errores);
+        }
+
+        productoRepository.deleteById(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
 
 
     

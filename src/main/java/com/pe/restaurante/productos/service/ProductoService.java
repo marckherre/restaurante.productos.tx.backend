@@ -11,5 +11,6 @@ public interface ProductoService {
 	ResponseEntity<Object> crearProducto(ProductoDTO  productoDTO );
 	ResponseEntity<Object> obtenerTodosProductos();
 	ResponseEntity<Object> actualizarProductoParcial(Long id, Map<String, Object> campos);
+	ResponseEntity<Object> eliminarProducto(Long id);
 
 }

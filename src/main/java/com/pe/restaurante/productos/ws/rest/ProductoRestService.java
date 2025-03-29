@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,6 +43,12 @@ public class ProductoRestService {
 	public ResponseEntity<Object> actualizarParcialProducto(@PathVariable("id") Long id, @RequestBody Map<String, Object> campos) {
     logger.info("Invoca endpoint PATCH para actualización parcial");
 	    return productoService.actualizarProductoParcial(id, campos);
+	}
+	
+	@DeleteMapping("/t/eliminar/{id}")
+	public ResponseEntity<Object> eliminarProducto(@PathVariable("id") Long id) {
+	    logger.info("Invoca endpoint eliminar producto");
+	    return productoService.eliminarProducto(id);
 	}
 
 }
