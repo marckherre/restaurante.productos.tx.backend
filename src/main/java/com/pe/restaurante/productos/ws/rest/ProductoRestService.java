@@ -28,10 +28,10 @@ public class ProductoRestService {
 		return productoService.crearProducto(productoDTO);
 	}
 	
-	@GetMapping
+	@GetMapping("/e/listar")
 	public ResponseEntity<Object> obtenerTodosClientes(){
 		logger.info("Invoca endpoint consulta");
-		return productoService.obtenerTodosClientes();
+		return productoService.obtenerTodosProductos();
 	}
 
 }

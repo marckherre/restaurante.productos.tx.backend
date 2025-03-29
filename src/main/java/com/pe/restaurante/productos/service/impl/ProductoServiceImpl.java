@@ -92,7 +92,7 @@ public class ProductoServiceImpl implements ProductoService {
             logger.error("C�digo: {}, Mensaje: {}", error.getCod(), error.getMsg()));
     }
     @Override
-    public ResponseEntity<Object> obtenerTodosClientes(){
+    public ResponseEntity<Object> obtenerTodosProductos(){
         List<ErrorMensaje> errores = new ArrayList<>();
         List<Producto> resultBD = new ArrayList<>();
         List<ProductoDTO> resultToShow = new ArrayList<>();
