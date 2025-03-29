@@ -3,13 +3,13 @@ package com.pe.restaurante.productos.dto;
 import com.pe.restaurante.productos.model.Producto;
 
 public class ProductoDTO {
-    private Long id;
-    private String nombre;
-    private Double precio;
-    private Long categoriaId;
-    private String categoriaNombre;
-    
-    public Long getId() {
+	private Long id;
+	private String nombre;
+	private Double precio;
+	private Long categoriaId;
+	private String categoriaNombre;
+
+	public Long getId() {
 		return id;
 	}
 
@@ -29,11 +29,9 @@ public class ProductoDTO {
 		return precio;
 	}
 
-
 	public void setPrecio(Double precio) {
 		this.precio = precio;
 	}
-
 
 	public Long getCategoriaId() {
 		return categoriaId;
@@ -43,24 +41,23 @@ public class ProductoDTO {
 		this.categoriaId = categoriaId;
 	}
 
-
 	public String getCategoriaNombre() {
 		return categoriaNombre;
 	}
-
 
 	public void setCategoriaNombre(String categoriaNombre) {
 		this.categoriaNombre = categoriaNombre;
 	}
 
-	public ProductoDTO() {}
-	
+	public ProductoDTO() {
+	}
+
 	public ProductoDTO(Producto producto) {
-        this.id = producto.getId();
-        this.nombre = producto.getNombre();
-        this.precio = producto.getPrecio();
-        this.categoriaId = producto.getCategoria().getId();
-        this.categoriaNombre = producto.getCategoria().getNombre();
-    }
-    
+		this.id = producto.getId();
+		this.nombre = producto.getNombre();
+		this.precio = producto.getPrecio();
+		this.categoriaId = producto.getCategoria().getId();
+		this.categoriaNombre = producto.getCategoria().getNombre();
+	}
+
 }

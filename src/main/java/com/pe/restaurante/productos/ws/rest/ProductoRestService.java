@@ -24,31 +24,38 @@ public class ProductoRestService {
 
 	@Autowired
 	private ProductoServiceImpl productoService;
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(ProductoRestService.class);
 
 	@PostMapping("/t/registro")
-	public ResponseEntity<Object> registrarProducto(@RequestBody ProductoDTO productoDTO ) {
+	public ResponseEntity<Object> registrarProducto(@RequestBody ProductoDTO productoDTO) {
 		logger.info("Invoca endpoint registro");
 		return productoService.crearProducto(productoDTO);
 	}
-	
+
 	@GetMapping("/e/listar")
-	public ResponseEntity<Object> obtenerTodosClientes(){
+	public ResponseEntity<Object> obtenerTodosClientes() {
 		logger.info("Invoca endpoint consulta");
 		return productoService.obtenerTodosProductos();
 	}
-	
+
 	@PatchMapping("/t/actualizar/{id}")
-	public ResponseEntity<Object> actualizarParcialProducto(@PathVariable("id") Long id, @RequestBody Map<String, Object> campos) {
-    logger.info("Invoca endpoint PATCH para actualización parcial");
-	    return productoService.actualizarProductoParcial(id, campos);
+	public ResponseEntity<Object> actualizarParcialProducto(@PathVariable("id") Long id,
+			@RequestBody Map<String, Object> campos) {
+		logger.info("Invoca endpoint PATCH para actualización parcial");
+		return productoService.actualizarProductoParcial(id, campos);
 	}
-	
+
 	@DeleteMapping("/t/eliminar/{id}")
 	public ResponseEntity<Object> eliminarProducto(@PathVariable("id") Long id) {
-	    logger.info("Invoca endpoint eliminar producto");
-	    return productoService.eliminarProducto(id);
+		logger.info("Invoca endpoint eliminar producto");
+		return productoService.eliminarProducto(id);
+	}
+
+	@GetMapping("/e/obtener/{id}")
+	public ResponseEntity<Object> obtenerProductoPorId(@PathVariable("id") Long id) {
+		logger.info("Invoca endpoint obtener producto por ID");
+		return productoService.obtenerProductoPorId(id);
 	}
 
 }

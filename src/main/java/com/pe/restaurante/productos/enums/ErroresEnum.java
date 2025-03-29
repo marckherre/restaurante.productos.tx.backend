@@ -9,31 +9,30 @@ public enum ErroresEnum {
 	ERROR_06(06, "No existen productos registrados"),
 	ERROR_07(07, "No existe el producto");
 
-
 	private int code;
 	private String msg;
- 
+
 	private ErroresEnum(int code, String msg) {
 		this.code = code;
 		this.msg = msg;
 	}
- 
+
 	public int getCodigo() {
 		return code;
 	}
- 
+
 	public void setCodigo(int code) {
 		this.code = code;
 	}
- 
+
 	public String getMensaje() {
 		return msg;
 	}
- 
+
 	public void setMensaje(String msg) {
 		this.msg = msg;
 	}
- 
+
 	public static String getMensaje(int code) {
 		String msg = "";
 		for (ErroresEnum enumHTTP : ErroresEnum.values()) {
