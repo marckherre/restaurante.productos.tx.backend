@@ -1,7 +1,9 @@
 package com.pe.restaurante.productos.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -89,7 +91,7 @@ public class ProductoServiceImpl implements ProductoService {
     
     private void logErrors(List<ErrorMensaje> errores) {
         errores.forEach(error -> 
-            logger.error("C�digo: {}, Mensaje: {}", error.getCod(), error.getMsg()));
+            logger.error("Código: {}, Mensaje: {}", error.getCod(), error.getMsg()));
     }
     @Override
     public ResponseEntity<Object> obtenerTodosProductos(){
@@ -111,4 +113,87 @@ public class ProductoServiceImpl implements ProductoService {
         return ResponseEntity.status(HttpStatus.OK).body(resultToShow);
         
     }
+    
+    @Override
+    public ResponseEntity<Object> actualizarProductoParcial(Long id, Map<String, Object> campos) {
+        List<ErrorMensaje> errores = new ArrayList<>();
+
+        Optional<Producto> productoOpt = productoRepository.findById(id);
+        if (!productoOpt.isPresent()) {
+            errores.add(new ErrorMensaje(ErroresEnum.ERROR_07.getCodigo(), 
+            ErroresEnum.getMensaje(ErroresEnum.ERROR_07.getCodigo())));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errores);
+        }
+
+        Producto producto = productoOpt.get();
+
+        if (campos.containsKey("nombre")) {
+            String nombre = campos.get("nombre").toString();
+            if (!ValidacionUtil.esNombreProductoValido(nombre)) {
+                errores.add(new ErrorMensaje(
+                    ErroresEnum.ERROR_01.getCodigo(),
+                    ErroresEnum.ERROR_01.getMensaje()
+                ));
+            } else {
+                producto.setNombre(nombre);
+            }
+        }
+
+        if (campos.containsKey("precio")) {
+            try {
+                Double precio = Double.parseDouble(campos.get("precio").toString());
+                if (!ValidacionUtil.esPrecioValido(precio)) {
+                    errores.add(new ErrorMensaje(
+                        ErroresEnum.ERROR_02.getCodigo(),
+                        ErroresEnum.ERROR_02.getMensaje()
+                    ));
+                } else {
+                    producto.setPrecio(precio);
+                }
+            } catch (NumberFormatException e) {
+                errores.add(new ErrorMensaje(
+                   ErroresEnum.ERROR_02.getCodigo(),
+                   ErroresEnum.ERROR_02.getMensaje()
+                ));
+            }
+        }
+
+        if (campos.containsKey("categoriaId")) {
+            try {
+                Long categoriaId = Long.parseLong(campos.get("categoriaId").toString());
+                if (!ValidacionUtil.esCategoriaValida(categoriaId)) {
+                    errores.add(new ErrorMensaje(
+                        ErroresEnum.ERROR_03.getCodigo(),
+                        ErroresEnum.ERROR_03.getMensaje()
+                    ));
+                } else {
+                    Optional<Categoria> categoriaOpt = categoriaRepository.findById(categoriaId);
+                    if (!categoriaOpt.isPresent()) {
+                        errores.add(new ErrorMensaje(
+                            ErroresEnum.ERROR_04.getCodigo(),
+                            ErroresEnum.ERROR_04.getMensaje()
+                        ));
+                    } else {
+                        producto.setCategoria(categoriaOpt.get());
+                    }
+                }
+            } catch (NumberFormatException e) {
+                errores.add(new ErrorMensaje(
+                    ErroresEnum.ERROR_03.getCodigo(),
+                    ErroresEnum.ERROR_03.getMensaje()
+                ));
+            }
+        }
+
+        if (!errores.isEmpty()) {
+            logErrors(errores);
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(errores);
+        }
+
+        productoRepository.save(producto);
+        return ResponseEntity.ok(new ProductoDTO(producto));
+    }
+
+
+    
 }
